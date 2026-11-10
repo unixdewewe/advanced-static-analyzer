@@ -18,7 +18,7 @@ class ThreatIntel:
             elif self.provider == "hybridanalysis":
                 self.api_key = os.environ.get("HA_API_KEY")
             elif self.provider == "malwarebazaar":
-                self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY")
+                self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY") or os.environ.get("MB_API_KEY")
 
         try:
             if self.provider == "virustotal":
@@ -86,32 +86,42 @@ class ThreatIntel:
                             return {"provider": "MalwareBazaar", "status": f"Unexpected status: {status}"}
                             
                 except urllib.error.HTTPError as e:
+                    if e.code == 403:
+                        return {"provider": "MalwareBazaar", "status": "HTTP 403 Forbidden: Invalid or unauthorized Auth-Key."}
                     return {"provider": "MalwareBazaar", "status": f"HTTP Error {e.code}"}
                 except Exception as e:
                     return {"provider": "MalwareBazaar", "status": f"API connection error: {str(e)}"}
+            
 
             elif self.provider == "hybridanalysis":
-                url = f"https://www.hybrid-analysis.com/api/v2/search/hash"
-                data = urllib.parse.urlencode({"hash": self.sha256}).encode("utf-8")
+                params = urllib.parse.urlencode({"hash": self.sha256})
+                url = f"https://www.hybrid-analysis.com/api/v2/search/hash?{params}"
                 headers = {"accept": "application/json", "user-agent": "StaticAnalyzer/2.0"}
                 if self.api_key:
                     headers["api-key"] = self.api_key
-                req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+                req = urllib.request.Request(url, headers=headers, method="GET")
                 
                 try:
                     with urllib.request.urlopen(req, timeout=10) as response:
                         res_json = json.loads(response.read().decode("utf-8"))
-                        if res_json and isinstance(res_json, list):
-                            item = res_json[0]
+                        reports = res_json.get("reports", [])
+                        if reports and isinstance(reports, list):
+                            item = reports[0]
                             return {
                                 "provider": "Hybrid Analysis",
                                 "status": "Found in Database",
-                                "verdict": item.get("verdict", "N/A"),
-                                "threat_score": item.get("threat_score", "N/A")
+                                "report_id": item.get("id", "N/A"),
+                                "environment": item.get("environment_description", "N/A"),
+                                "state": item.get("state", "N/A"),
+                                "verdict": item.get("verdict", "N/A")
                             }
                         else:
                             return {"provider": "Hybrid Analysis", "status": "Hash not found in database."}
                 except urllib.error.HTTPError as e:
+                    if e.code == 404:
+                        return {"provider": "Hybrid Analysis", "status": "Hash not found in database."}
+                    elif e.code == 401:
+                        return {"provider": "Hybrid Analysis", "status": "Invalid or missing API key."}
                     return {"provider": "Hybrid Analysis", "status": f"HTTP Error {e.code}"}
 
             else:
