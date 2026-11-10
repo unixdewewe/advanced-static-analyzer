@@ -20,6 +20,7 @@ class ThreatIntel:
             elif self.provider == "malwarebazaar":
                 self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY") or os.environ.get("MB_API_KEY")
 
+            # VirusTotal API v3 endpoint 
         try:
             if self.provider == "virustotal":
                 url = f"https://www.virustotal.com/api/v3/files/{self.sha256}"
@@ -92,7 +93,7 @@ class ThreatIntel:
                 except Exception as e:
                     return {"provider": "MalwareBazaar", "status": f"API connection error: {str(e)}"}
             
-
+            # Hybrid Analysis API v2 endpoint for hash search
             elif self.provider == "hybridanalysis":
                 params = urllib.parse.urlencode({"hash": self.sha256})
                 url = f"https://www.hybrid-analysis.com/api/v2/search/hash?{params}"

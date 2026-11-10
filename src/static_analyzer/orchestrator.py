@@ -79,6 +79,13 @@ class TriageOrchestrator:
                     console.print(f"  [cyan]Detections:[/cyan] [bold red]{intel_res['detections']}[/bold red]")
                 if "signature" in intel_res:
                     console.print(f"  [cyan]Signature:[/cyan] [bold red]{intel_res['signature']}[/bold red]")
+                if "report_id" in intel_res:
+                    console.print(f"  [cyan]Report ID:[/cyan] {intel_res['report_id']}")
+                if "environment" in intel_res:
+                    console.print(f"  [cyan]Environment:[/cyan] {intel_res['environment']}")
+                if "verdict" in intel_res:
+                    verdict_color = "red" if intel_res['verdict'].lower() == "malicious" else "green"
+                    console.print(f"  [cyan]Verdict:[/cyan] [{verdict_color}]{intel_res['verdict']}[/{verdict_color}]")
 
         # 3. Structure Analysis
         if is_pe_file and PEFILE_AVAILABLE:
