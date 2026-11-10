@@ -1,23 +1,27 @@
 # Advanced Universal Static Malware Analysis & Forensics Tool (v2.0)
 
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-D22128?style=flat&logo=apache&logoColor=white)](https://github.com/unixdewewe/advanced-static-analyzer)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=github&logoColor=white)](https://github.com/unixdewewe/advanced-static-analyzer)
+
 This project provides a professional, Python-based static file forensics and malware triage tool designed to analyze any file format for potential malicious content safely and efficiently. The tool performs universal static analysis techniques—including format-agnostic classification, archive/container inspection, sliding-window chunk entropy analysis, PE structure inspection, multi-provider threat intelligence API querying, MITRE ATT&CK technique mapping, YARA rule matching, Mandiant FLOSS string decoding, and IOC regex parsing—to help security analysts quickly triage threats.
 
 ## Key Features
 
-- **Modular OOP Architecture**: Built with a clean package structure under `src/static_analyzer/` separating metadata extraction, PE analysis, non-PE heuristics, archives, threat intelligence, and reporting.
-- **Universal File Classification & Signature Analysis**: Detects headers and classifies Windows PE Executables, Linux ELF binaries, macOS Mach-O files, ZIP/JAR/APK archives, PDF documents, and OLE Office files alongside a 16-byte hex and ASCII dump.
-- **Multi-Provider Threat Intelligence Lookup**: Queries online hash reputation databases with support for **VirusTotal** (default v3 API), **MalwareBazaar**, and **Hybrid Analysis**.
-- **Correlated MITRE ATT&CK Mapping**: Automatically maps suspicious API imports and YARA rule hits to standard MITRE ATT&CK Technique IDs (e.g., `T1055: Process Injection`, `T1497: System Checks`).
-- **Archive & Container Inspection**: Opens ZIP, JAR, and APK files recursively to list inner code artifacts (`.class`, `.dex`, `.exe`, `.sh`, `.bat`) and inspect uncompressed payload sizes.
-- **Archive Vulnerability Safeguards**: Automatically flags path-traversal indicators (Zip Slip vulnerabilities) within archive headers.
-- **Cryptographic Fingerprinting**: Calculates MD5, SHA1, SHA256 hashes, and PE Import Hashes (`imphash`) when analyzing Portable Executables.
-- **Universal Chunk Entropy Analysis**: Performs sliding-window entropy scanning across any file type (archives, blobs, scripts) to detect encrypted, packed, or hidden payloads.
-- **PE Header & Section Security Scanning**: Inspects section permissions for dangerous flags (e.g., RWX) and calculates per-section Shannon entropy.
-- **Suspicious API Import Analysis**: Flags Win32 APIs associated with process injection/hollowing, anti-debugging evasion, keylogging, and C2 networking.
-- **YARA Rule Integration**: Scans files against custom rules or directories (e.g., `./rules/malware_rules.yar`) using `yara-python`.
-- **Mandiant FLOSS Integration**: Automatically invokes local `floss` binaries to uncover stack strings, decoded strings, and obfuscated artifacts, equipped with automated file size safeguards (> 16MB) to prevent timeouts.
-- **IOC Parsing & String Extraction**: Extracts printable text strings and automatically parses IP addresses, URLs, email addresses, and Windows Registry keys using regular expressions.
-- **Flexible Output & Reporting**: Generates rich terminal dashboards using `rich`, standalone HTML reports (`--export-html`), session logs (`analysis.log`), or standard JSON exports for SOAR pipelines.
+- 🧩 **Modular OOP Architecture**: Built with a clean package structure under `src/static_analyzer/` separating metadata extraction, PE analysis, non-PE heuristics, archives, threat intelligence, and reporting.
+- 🔍 **Universal File Classification & Signature Analysis**: Detects headers and classifies Windows PE Executables, Linux ELF binaries, macOS Mach-O files, ZIP/JAR/APK archives, PDF documents, and OLE Office files alongside a 16-byte hex and ASCII dump.
+- ☁️ **Multi-Provider Threat Intelligence Lookup**: Queries online hash reputation databases with support for **VirusTotal** (default v3 API), **MalwareBazaar**, and **Hybrid Analysis**.
+- 🛡️ **Correlated MITRE ATT&CK Mapping**: Automatically maps suspicious API imports and YARA rule hits to standard MITRE ATT&CK Technique IDs (e.g., `T1055: Process Injection`, `T1497: System Checks`).
+- 🗂️ **Archive & Container Inspection**: Opens ZIP, JAR, and APK files recursively to list inner code artifacts (`.class`, `.dex`, `.exe`, `.sh`, `.bat`) and inspect uncompressed payload sizes.
+- ⚠️ **Archive Vulnerability Safeguards**: Automatically flags path-traversal indicators (Zip Slip vulnerabilities) within archive headers.
+- 🔑 **Cryptographic Fingerprinting**: Calculates MD5, SHA1, SHA256 hashes, and PE Import Hashes (`imphash`) when analyzing Portable Executables.
+- 📈 **Universal Chunk Entropy Analysis**: Performs sliding-window entropy scanning across any file type (archives, blobs, scripts) to detect encrypted, packed, or hidden payloads.
+- 🏗️ **PE Header & Section Security Scanning**: Inspects section permissions for dangerous flags (e.g., RWX) and calculates per-section Shannon entropy.
+- ⚡ **Suspicious API Import Analysis**: Flags Win32 APIs associated with process injection/hollowing, anti-debugging evasion, keylogging, and C2 networking.
+- 🎯 **YARA Rule Integration**: Scans files against custom rules or directories (e.g., `./rules/malware_rules.yar`) using `yara-python`.
+- 🧬 **Mandiant FLOSS Integration**: Automatically invokes local `floss` binaries to uncover stack strings, decoded strings, and obfuscated artifacts, equipped with automated file size safeguards (> 16MB) to prevent timeouts.
+- 📌 **IOC Parsing & String Extraction**: Extracts printable text strings and automatically parses IP addresses, URLs, email addresses, and Windows Registry keys using regular expressions.
+- 📊 **Flexible Output & Reporting**: Generates rich terminal dashboards using `rich`, standalone HTML reports (`--export-html`), session logs (`analysis.log`), or standard JSON exports for SOAR pipelines.
 
 ## Project Structure
 
@@ -51,7 +55,7 @@ advanced-static-analyzer/
 
 ```
 
-## Requirements
+## Prerequisites
 
 * Python 3.8 or later
 * Mandatory dependencies (specified in `requirements.txt` / `pyproject.toml`):
@@ -142,39 +146,37 @@ advanced-static-analyzer/
 ## Installation & Setup
 
 1. **Clone the repository:**
+
 ```bash
 git clone [https://github.com/unixdewewe/advanced-static-analyzer.git](https://github.com/unixdewewe/advanced-static-analyzer.git)
 cd "advanced-static-analyzer"
 
 ```
 
-
 2. **Create and Activate Virtual Environment:**
+
 * **Windows:**
+
 ```powershell
 python -m venv venv
 .\venv\Scripts\activate
 
 ```
 
-
 * **Linux/macOS:**
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 
 ```
 
-
-
-
 3. **Install Package in Editable Mode:**
+
 ```bash
 pip install -e .
 
 ```
-
-
 
 ## Usage
 
@@ -239,6 +241,18 @@ static-analyzer .\samples\malware.exe --yara-rules .\rules\ --json > report.json
 * **Safety Warning**: Always execute malware analysis within an isolated, air-gapped Virtual Machine (VM) or sandbox.
 * **Legal Notice**: Ensure proper authorization and legal compliance before performing forensic analysis on target files.
 
+---
+
+## Acknowledgments
+
+This tool builds upon and integrates several exceptional open-source libraries, threat intelligence platforms, and security standards widely adopted by the DFIR community:
+
+* **[Mandiant FLOSS (FLARE Obfuscated String Solver)](https://github.com/mandiant/flare-floss)**: For uncovering obfuscated, encoded, and stack strings from binaries.
+* **[YARA by VirusTotal](https://github.com/VirusTotal/yara)**: For powering pattern-matching rulesets and multi-platform binary signature detection.
+* **[pefile](https://github.com/erocarrera/pefile)**: For parser handling and inspection of Portable Executable (PE) headers and structures.
+* **Threat Intelligence Providers**: **[VirusTotal API v3](https://www.virustotal.com/)**, **[MalwareBazaar (abuse.ch)](https://bazaar.abuse.ch/)**, and **[Hybrid Analysis](https://www.hybrid-analysis.com/)** for cloud hash reputation lookups.
+* **[MITRE ATT&CK®](https://attack.mitre.org/)**: For providing the standardized framework used to map behavioral indicators and suspicious imports to attack techniques.
+
 ## Author
 
 **Rashid Dewewe**
@@ -249,7 +263,4 @@ BSc in Cyber Security and Digital Forensics Engineering
 
 Distributed under the Apache 2 License. See `LICENSE` for details.
 
-
-
-<FollowUp label="Want to add automated unit test execution steps to your README or CI pipeline?" query="How can I add automated unit test execution and a GitHub Actions CI pipeline to this project structure?"/>
-
+```
