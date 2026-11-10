@@ -1,0 +1,23 @@
+# Python / Virtual Environments
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+
+# Build & Package Artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Malware Samples & Local Binaries
+samples/
+floss.exe
+
+# Logs & Temporary Files
+*.log
+analysis.log
+.DS_Store
