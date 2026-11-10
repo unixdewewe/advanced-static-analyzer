@@ -6,6 +6,124 @@
 
 This project provides a professional, Python-based static file forensics and malware triage tool designed to analyze any file format for potential malicious content safely and efficiently. The tool performs universal static analysis techniques including format-agnostic classification, archive/container inspection, sliding-window chunk entropy analysis, PE structure inspection, multi-provider threat intelligence API querying, MITRE ATT&CK technique mapping, YARA rule matching, Mandiant FLOSS string decoding, and IOC regex parsing to help security analysts quickly triage threats.
 
+```bash
+(venv) static-analyzer.exe .\samples\6cbc38b79a107e48cc0c657726b04be203f2b5ddd32c2a3e083c3acb8cdd9365.exe --yara-rules .\rules\industry_grade_rules.yar --threat-intel --api-key YOUR_API_b28106ceac844738efbd1_KEY
+╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+│      _        _   _         _                _                                                 │
+│  ___| |_ __ _| |_(_) ___   / \   _ __   __ _| |_   _ _______ _ __                              │
+│ / __| __/ _` | __| |/ __| / _ \ | '_ \ / _` | | | | |_  / _ \ '__|                             │
+│ \__ \ || (_| | |_| | (__ / ___ \| | | | (_| | | |_| |/ /  __/ |                                │
+│ |___/\__\__,_|\__|_|\___/_/   \_\_| |_|\__,_|_|\__, /___\___|_|                                │
+│                                                |___/                                           │
+│                                                                                                │
+│ ──────────────────────────────────────────────────────────────────────                         │
+│  Version      : v2.0                                                                           │
+│  Author       : Rashid Dewewe                                                                  │
+│  Repository   : https://github.com/unixdewewe/advanced-static-analyzer                         │
+│  Target File  : .\samples\6cbc38b79a107e48cc0c657726b04be203f2b5ddd32c2a3e083c3acb8cdd9365.exe │
+│                                                                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+[*] Cryptographic Fingerprints
+  MD5     : 5849a31cee6d06c9250755fba7aa04ec
+  SHA1    : c7594752950151b344dd59b1c0cff53a9c9ed3fe
+  SHA256  : 6cbc38b79a107e48cc0c657726b04be203f2b5ddd32c2a3e083c3acb8cdd9365
+
+[*] File Identification & Header Analysis
+  Size: 174182 bytes
+  File Classification: Windows PE Executable (.exe, .dll, .sys)
+  Magic Details: PE32+ executable (console) x86-64, for MS Windows
+  Header Hex (16 bytes): 4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF 00 00
+  Header ASCII: MZ..............
+
+[*] Querying Threat Intelligence (Virustotal)...
+  Provider: VirusTotal
+  Status: Found in Database
+  Detections: 51 / 76 engines flagged as malicious
+
+[*] PE Sections & Entropy Analysis
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Section Name ┃ Virtual Address ┃ Raw Size ┃ Entropy ┃ Flags / Status ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│ .text        │ 0x1000          │ 20992    │ 5.57    │ Normal         │
+│ .data        │ 0x7000          │ 512      │ 0.82    │ Normal         │
+│ .rdata       │ 0x8000          │ 13312    │ 5.56    │ Normal         │
+│ .pdata       │ 0xc000          │ 1024     │ 3.8     │ Normal         │
+│ .xdata       │ 0xd000          │ 1024     │ 3.46    │ Normal         │
+│ .bss         │ 0xe000          │ 0        │ 0.0     │ Normal         │
+│ .idata       │ 0xf000          │ 4096     │ 4.13    │ Normal         │
+│ .tls         │ 0x10000         │ 512      │ 0.0     │ Normal         │
+│ .rsrc        │ 0x11000         │ 1536     │ 4.78    │ Normal         │
+│ .reloc       │ 0x12000         │ 512      │ 1.47    │ Normal         │
+│ /4           │ 0x13000         │ 1536     │ 1.39    │ Normal         │
+│ /19          │ 0x14000         │ 45056    │ 5.87    │ Normal         │
+│ /31          │ 0x1f000         │ 9216     │ 4.7     │ Normal         │
+│ /45          │ 0x22000         │ 8192     │ 4.79    │ Normal         │
+│ /57          │ 0x24000         │ 2560     │ 3.75    │ Normal         │
+│ /70          │ 0x25000         │ 1024     │ 4.05    │ Normal         │
+│ /81          │ 0x26000         │ 6656     │ 4.85    │ Normal         │
+│ /97          │ 0x28000         │ 5120     │ 5.05    │ Normal         │
+│ /113         │ 0x2a000         │ 512      │ 3.8     │ Normal         │
+└──────────────┴─────────────────┴──────────┴─────────┴────────────────┘
+
+[*] Running YARA Scan using rules: .\rules\industry_grade_rules.yar
+  [+] Match Rule: Universal_High_Entropy_Packed_Payload (Namespace: default)
+
+[*] Correlated MITRE ATT&CK Techniques
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Detection Source                            ┃ Technique ID ┃ Technique Name                                                          ┃ Tactic          ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ YARA: Universal_High_Entropy_Packed_Payload │ T1027.002    │ Detects files containing packer signatures, strong obfuscation, or      │ Defense Evasion │
+│                                             │              │ compiled binary frameworks                                              │                 │
+└─────────────────────────────────────────────┴──────────────┴─────────────────────────────────────────────────────────────────────────┴─────────────────┘
+
+[*] Extracted Indicators of Compromise (IOCs)
+  DOMAINS_AND_SUBDOMAINS:
+    - pdata.startup
+    - s.tmp
+    - s.blackout
+    - text.startup
+    - xdata.startup
+    - gpedit.msc
+    - wipe.tmp
+  NETWORK_TIMEOUTS_RETRIES_SECONDS:
+    - 0
+  EXECUTED_COMMANDS:
+    - powershell.exe
+    - shadows /all /quiet >nul 2>&1
+    - show_final_message
+    - powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true; Set-MpPreference -
+  FILE_DIRECTORY_ACCESS:
+    - C:\Windows\System32\systray.exe
+    - C:\wipe.tmp
+    - C:\System
+    - C:\Windows\lock.png
+    - C:\Program
+    - C:\M\B\src\build-UCRT64
+    - C:\ProgramData
+    - C:\ProgramData\Microsoft\Windows
+    - C:\VBox_GAs
+    - C:\Windows\System32\gpedit.msc
+    ... and 7 more.
+  PERMISSION_MODIFICATIONS:
+    - icacls "%s" /inheritance:d /c /q >nul 2>&1
+    - icacls "%s" /deny Administrators:(F) /t /c /q >nul 2>&1
+    - icacls "C:\Windows\regedit.exe" /deny Everyone:(X) /c /q
+    - icacls "C:\Users" /deny Administrators:(F) /c /q >nul 2>
+    - icacls "C:\Users" /deny Users:(F) /c /q >nul 2>&1
+    - icacls "%s" /grant SYSTEM:F /c /q >nul 2>&1
+    - icacls "C:\Users" /deny Everyone:(F) /c /q >nul 2>&1
+    - icacls "%s" /grant %username%:R /c /q >nul 2>&1
+    - icacls "C:\Windows\System32" /inheritance:d /c /q >nul 2
+    - icacls "C:\Windows\System32" /deny Administrators:(X) /c
+    ... and 14 more.
+  KERNEL_SYSTEM_CALLS:
+    - NtCurrentTeb
+  REGISTRY_KEYS:
+    - HKEY_CURRENT_USER
+    - HKEY_LOCAL_MACHINE
+```
+
 ## Key Features
 
 - 🧩 **Modular OOP Architecture**: Built with a clean package structure under `src/static_analyzer/` separating metadata extraction, PE analysis, non-PE heuristics, archives, threat intelligence, and reporting.
@@ -76,10 +194,21 @@ advanced-static-analyzer/
 ## Sample Results
 
 ```bash
-╭──────────────────────────────────────────────────────────────────────────────────────╮
-│ Advanced Universal Static Malware Forensics Analyzer v2.0                            │
-│ Target: samples/4f95ac617c436b748175dc09856e835ce7911ae9ad904b36237756e366bf727f.exe │
-╰──────────────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+│      _        _   _         _                _                                                 │
+│  ___| |_ __ _| |_(_) ___   / \   _ __   __ _| |_   _ _______ _ __                              │
+│ / __| __/ _` | __| |/ __| / _ \ | '_ \ / _` | | | | |_  / _ \ '__|                             │
+│ \__ \ || (_| | |_| | (__ / ___ \| | | | (_| | | |_| |/ /  __/ |                                │
+│ |___/\__\__,_|\__|_|\___/_/   \_\_| |_|\__,_|_|\__, /___\___|_|                                │
+│                                                |___/                                           │
+│                                                                                                │
+│ ──────────────────────────────────────────────────────────────────────                         │
+│  Version      : v2.0                                                                           │
+│  Author       : Rashid Dewewe                                                                  │
+│  Repository   : https://github.com/unixdewewe/advanced-static-analyzer                         │
+│  Target File  : .\samples\4f95ac617c436b748175dc09856e835ce7911ae9ad904b36237756e366bf727f.exe │
+│                                                                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 [*] Cryptographic Fingerprints
   MD5     : 80363cf53ed46bafdd5267122cecc241
@@ -89,14 +218,9 @@ advanced-static-analyzer/
 [*] File Identification & Header Analysis
   Size: 4000000 bytes
   File Classification: Windows PE Executable (.exe, .dll, .sys)
-  Magic Details: PE32+ executable for MS Windows 6.00 (GUI), x86-64, 6 sections
+  Magic Details: PE32+ executable (GUI) x86-64, for MS Windows
   Header Hex (16 bytes): 4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF 00 00
   Header ASCII: MZ..............
-
-[*] Querying Threat Intelligence (Virustotal)...
-  Provider: VirusTotal
-  Status: Found in Database
-  Detections: 54 / 72 engines flagged as malicious
 
 [*] PE Sections & Entropy Analysis
 ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━┓
@@ -113,32 +237,78 @@ advanced-static-analyzer/
 [!] Suspicious API Imports Detected:
   Anti-Debugging / Evasion: IsDebuggerPresent
 
-[*] Running YARA Scan using rules: rules/malware_rules.yar
-  [+] Match Rule: Suspicious_Process_Injection_APIs (Namespace: default)
-  [+] Match Rule: Suspicious_Anti_Debug_Evasion (Namespace: default)
-  [+] Match Rule: Suspicious_Network_C2_Activity (Namespace: default)
+[*] Running YARA Scan using rules: .\rules\industry_grade_rules.yar
+  [+] Match Rule: PE_Windows_Process_Injection_And_Hollowing (Namespace: default)
+  [+] Match Rule: PE_Windows_Evasion_AntiDebugging_AntiVM (Namespace: default)
+  [+] Match Rule: PE_Windows_Network_C2_Activity (Namespace: default)
 
 [*] Correlated MITRE ATT&CK Techniques
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
-┃ Detection Source                        ┃ Technique ID ┃ Technique Name                 ┃ Tactic              ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
-│ IsDebuggerPresent                       │ T1497.001    │ System Checks (Anti-Debugging) │ Defense Evasion     │
-│ YARA: Suspicious_Process_Injection_APIs │ T1055        │ Process Injection              │ Defense Evasion     │
-│ YARA: Suspicious_Anti_Debug_Evasion     │ T1497.001    │ System Checks                  │ Defense Evasion     │
-│ YARA: Suspicious_Network_C2_Activity    │ T1071        │ Application Layer Protocol     │ Command and Control │
-└─────────────────────────────────────────┴──────────────┴────────────────────────────────┴─────────────────────┘
-
-[*] Running Mandiant FLOSS for Advanced Strings...
-  Status: error: FLOSS execution timed out after 60 seconds.
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃ Detection Source                                 ┃ Technique ID ┃ Technique Name                                                                             ┃ Tactic              ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ IsDebuggerPresent                                │ T1497.001    │ System Checks (Anti-Debugging)                                                             │ Defense Evasion     │
+│ YARA: PE_Windows_Process_Injection_And_Hollowing │ T1055        │ Detects API function combinations essential for Process Injection, Thread Hijacking, or    │ Defense Evasion     │
+│                                                  │              │ Process Hollowing                                                                          │                     │
+│ YARA: PE_Windows_Evasion_AntiDebugging_AntiVM    │ T1497.001    │ Detects Windows binaries scanning for sandboxes, debuggers, or virtualized analysis        │ Defense Evasion     │
+│                                                  │              │ environments                                                                               │                     │
+│ YARA: PE_Windows_Network_C2_Activity             │ T1071.001    │ Detects network and HTTP communication library strings typical of malware beacons          │ Command and Control │
+└──────────────────────────────────────────────────┴──────────────┴────────────────────────────────────────────────────────────────────────────────────────────┴─────────────────────┘
 
 [*] Extracted Indicators of Compromise (IOCs)
-  IPS:
-    - 213.226.113.53
-    - 213.226.113.54
+  NETWORK_ENDPOINTS_WITH_PORTS:
+    - 2.0.0.1
     - 176.113.115.149
     - 185.81.68.156
+    - 213.226.113.54
+    - 6.0.0.0
+    - 1.0.0.1
+    - 213.226.113.53
+    - 3.1.1.1
     - 131.0.0.0
-
+  DOMAINS_AND_SUBDOMAINS:
+    - diamotrix.online
+    - s.rowid
+    - diamotrix.world
+    - s.xBestIndex
+    - exodus.wallet
+  EXECUTED_COMMANDS:
+    - shViewOfFile
+    - sh-honduras
+    - sh-nicaragua
+    - sh-ecuador
+    - shared
+    - shlwapi.dll
+    - sh-nz
+    - should reference only one column of table %T
+    - should be between 1 and %d
+    - SHELL32.dll
+    ... and 5 more.
+  FILE_DIRECTORY_ACCESS:
+    - C:\inetpub
+    - D:\xampp
+    - E:\wamp64
+    - D:\wamp64
+    - C:\wamp64
+    - E:\inetpub
+    - C:\xampp
+    - E:\Users\
+    - D:\Users\
+    - C:\Users\
+    ... and 2 more.
+  PERMISSION_MODIFICATIONS:
+    - AttributesExW
+    - AttributesW
+    - AttributesA
+  KERNEL_SYSTEM_CALLS:
+    - NtOpenKey
+    - NtQueryInformationProcess
+    - NtCreateThreadEx
+    - ZwQueryVirtualMemory
+    - ZwResumeThread
+    - NtUnmapViewOfSection
+    - NtSetValueKey
+    - NtResumeThread
+    
 ```
 
 ---
