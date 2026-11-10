@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-D22128?style=flat&logo=apache&logoColor=white)](https://github.com/unixdewewe/advanced-static-analyzer)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=github&logoColor=white)](https://github.com/unixdewewe/advanced-static-analyzer)
 
-This project provides a professional, Python-based static file forensics and malware triage tool designed to analyze any file format for potential malicious content safely and efficiently. The tool performs universal static analysis techniques—including format-agnostic classification, archive/container inspection, sliding-window chunk entropy analysis, PE structure inspection, multi-provider threat intelligence API querying, MITRE ATT&CK technique mapping, YARA rule matching, Mandiant FLOSS string decoding, and IOC regex parsing—to help security analysts quickly triage threats.
+This project provides a professional, Python-based static file forensics and malware triage tool designed to analyze any file format for potential malicious content safely and efficiently. The tool performs universal static analysis techniques including format-agnostic classification, archive/container inspection, sliding-window chunk entropy analysis, PE structure inspection, multi-provider threat intelligence API querying, MITRE ATT&CK technique mapping, YARA rule matching, Mandiant FLOSS string decoding, and IOC regex parsing to help security analysts quickly triage threats.
 
 ## Key Features
 
@@ -262,5 +262,3 @@ BSc in Cyber Security and Digital Forensics Engineering
 ## License
 
 Distributed under the Apache 2 License. See `LICENSE` for details.
-
-```
