@@ -18,7 +18,7 @@ class ThreatIntel:
             elif self.provider == "hybridanalysis":
                 self.api_key = os.environ.get("HA_API_KEY")
             elif self.provider == "malwarebazaar":
-                self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY")
+                self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY") or os.environ.get("MB_API_KEY")
 
         try:
             if self.provider == "virustotal":
@@ -86,6 +86,8 @@ class ThreatIntel:
                             return {"provider": "MalwareBazaar", "status": f"Unexpected status: {status}"}
                             
                 except urllib.error.HTTPError as e:
+                    if e.code == 403:
+                        return {"provider": "MalwareBazaar", "status": "HTTP 403 Forbidden: Invalid or unauthorized Auth-Key."}
                     return {"provider": "MalwareBazaar", "status": f"HTTP Error {e.code}"}
                 except Exception as e:
                     return {"provider": "MalwareBazaar", "status": f"API connection error: {str(e)}"}
