@@ -143,8 +143,8 @@ advanced-static-analyzer/
 
 1. **Clone the repository:**
 ```bash
-git clone [https://github.com/Rashid-dewewe/static-malware-analysis.git](https://github.com/Rashid-dewewe/static-malware-analysis.git)
-cd "static-malware-analysis"
+git clone [https://github.com/unixdewewe/advanced-static-analyzer.git](https://github.com/unixdewewe/advanced-static-analyzer.git)
+cd "advanced-static-analyzer"
 
 ```
 
