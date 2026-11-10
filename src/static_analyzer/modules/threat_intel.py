@@ -32,14 +32,34 @@ class ThreatIntel:
                 try:
                     with urllib.request.urlopen(req, timeout=10) as response:
                         res_json = json.loads(response.read().decode("utf-8"))
-                        stats = res_json.get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
+                        attributes = res_json.get("data", {}).get("attributes", {})
+                        stats = attributes.get("last_analysis_stats", {})
+                        
                         malicious = stats.get("malicious", 0)
                         total = sum(stats.values()) if stats else 0
+                        
+                        # Extracting popular threat classification & family labels
+                        popular_threat = attributes.get("popular_threat_classification", {})
+                        suggested_threat_label = popular_threat.get("suggested_threat_label", "N/A")
+                        
+                        # Categories & Threat Names
+                        categories = []
+                        if "popular_threat_category" in popular_threat:
+                            categories = [item.get("value") for item in popular_threat.get("popular_threat_category", [])]
+                        
+                        threat_names = []
+                        if "popular_threat_name" in popular_threat:
+                            threat_names = [item.get("value") for item in popular_threat.get("popular_threat_name", [])]
+
                         return {
                             "provider": "VirusTotal",
                             "status": "Found in Database",
                             "detections": f"{malicious} / {total} engines flagged as malicious",
-                            "malicious_count": malicious
+                            "malicious_count": malicious,
+                            "suggested_threat_label": suggested_threat_label,
+                            "threat_categories": categories,
+                            "family_labels": threat_names,
+                            "tags": attributes.get("tags", [])
                         }
                 except urllib.error.HTTPError as e:
                     if e.code == 404:

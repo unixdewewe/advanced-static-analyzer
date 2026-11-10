@@ -77,6 +77,12 @@ class TriageOrchestrator:
                 console.print(f"  [cyan]Status:[/cyan] {intel_res['status']}")
                 if "detections" in intel_res:
                     console.print(f"  [cyan]Detections:[/cyan] [bold red]{intel_res['detections']}[/bold red]")
+                if "suggested_threat_label" in intel_res and intel_res["suggested_threat_label"] != "N/A":
+                    console.print(f"  [cyan]Threat Label:[/cyan] [bold red]{intel_res['suggested_threat_label']}[/bold red]")
+                if "threat_categories" in intel_res and intel_res["threat_categories"]:
+                    console.print(f"  [cyan]Categories:[/cyan] {', '.join(intel_res['threat_categories'])}")
+                if "family_labels" in intel_res and intel_res["family_labels"]:
+                    console.print(f"  [cyan]Family Labels:[/cyan] [bold yellow]{', '.join(intel_res['family_labels'])}[/bold yellow]")
                 if "signature" in intel_res:
                     console.print(f"  [cyan]Signature:[/cyan] [bold red]{intel_res['signature']}[/bold red]")
                 if "report_id" in intel_res:
