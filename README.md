@@ -6,8 +6,10 @@
 
 This project provides a professional, Python-based static file forensics and malware triage tool designed to analyze any file format for potential malicious content safely and efficiently. The tool performs universal static analysis techniques including format-agnostic classification, archive/container inspection, sliding-window chunk entropy analysis, PE structure inspection, multi-provider threat intelligence API querying, MITRE ATT&CK technique mapping, YARA rule matching, Mandiant FLOSS string decoding, and IOC regex parsing to help security analysts quickly triage threats.
 
+---
 ```bash
-(venv) static-analyzer.exe .\samples\6cbc38b79a107e48cc0c657726b04be203f2b5ddd32c2a3e083c3acb8cdd9365.exe --yara-rules .\rules\industry_grade_rules.yar --threat-intel --api-key YOUR_API_b28106ceac844738efbd1_KEY
+(venv) static-analyzer.exe .\samples\6cbc38b79a107e48cc0c657726b04be203f2b5ddd32c2a3e083c3acb8cdd9365.exe 
+--yara-rules .\rules\industry_grade_rules.yar --threat-intel --api-key YOUR_API_b28106ceac844738efbd1_KEY
 ╭────────────────────────────────────────────────────────────────────────────────────────────────╮
 │      _        _   _         _                _                                                 │
 │  ___| |_ __ _| |_(_) ___   / \   _ __   __ _| |_   _ _______ _ __                              │
@@ -42,6 +44,7 @@ This project provides a professional, Python-based static file forensics and mal
   Detections: 51 / 76 engines flagged as malicious
 
 ```
+---
 
 ## Key Features
 
@@ -175,6 +178,7 @@ static-analyzer <file_path> [options]
 **1. Basic Analysis with Default VirusTotal Threat Intelligence Lookup:**
 
 ```powershell
+# API key required
 $env:VT_API_KEY="your_virustotal_api_key"
 static-analyzer .\samples\malware.exe --threat-intel
 
@@ -184,9 +188,13 @@ static-analyzer .\samples\malware.exe --threat-intel
 
 ```powershell
 # Query MalwareBazaar (API key required)
+$env:MALWAREBAZAAR_API_KEY="your_actual_malwarebazaar_auth_key"
 static-analyzer .\samples\sample_file.jar --threat-intel --ti-provider malwarebazaar --api-key "your_MalwareBazaar_API_key"
+```
 
+```powershell
 # Query Hybrid Analysis with inline API key
+$env:HA_API_KEY="your_actual_malwarebazaar_auth_key"
 static-analyzer .\samples\malware.exe --threat-intel --ti-provider hybridanalysis --api-key "your_ha_API_key"
 
 ```
