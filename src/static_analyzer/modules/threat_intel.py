@@ -20,8 +20,8 @@ class ThreatIntel:
             elif self.provider == "malwarebazaar":
                 self.api_key = os.environ.get("MALWAREBAZAAR_API_KEY") or os.environ.get("MB_API_KEY")
 
-            # VirusTotal API v3 endpoint 
         try:
+            # VirusTotal API v3 endpoint
             if self.provider == "virustotal":
                 url = f"https://www.virustotal.com/api/v3/files/{self.sha256}"
                 headers = {"accept": "application/json"}
@@ -38,11 +38,9 @@ class ThreatIntel:
                         malicious = stats.get("malicious", 0)
                         total = sum(stats.values()) if stats else 0
                         
-                        # Extracting popular threat classification & family labels
                         popular_threat = attributes.get("popular_threat_classification", {})
                         suggested_threat_label = popular_threat.get("suggested_threat_label", "N/A")
                         
-                        # Categories & Threat Names
                         categories = []
                         if "popular_threat_category" in popular_threat:
                             categories = [item.get("value") for item in popular_threat.get("popular_threat_category", [])]
@@ -69,6 +67,7 @@ class ThreatIntel:
                     else:
                         return {"provider": "VirusTotal", "status": f"HTTP Error {e.code}"}
 
+            # MalwareBazaar API v1
             elif self.provider == "malwarebazaar":
                 url = "https://mb-api.abuse.ch/api/v1/"
                 
@@ -91,11 +90,12 @@ class ThreatIntel:
                             return {
                                 "provider": "MalwareBazaar",
                                 "status": "Found in Database",
-                                "signature": item.get("signature", "Unknown"),
                                 "file_name": item.get("file_name", "Unknown"),
-                                "file_type": item.get("file_type", "Unknown"),
-                                "first_seen": item.get("first_seen", "Unknown"),
-                                "tags": item.get("tags", [])
+                                "date_utc": item.get("first_seen", "Unknown"),
+                                "type": item.get("file_type", "Unknown"),
+                                "signature": item.get("signature", "Unknown"),
+                                "tags": item.get("tags", []),
+                                "reporter": item.get("reporter", "Unknown")
                             }
                         elif status == "hash_not_found":
                             return {"provider": "MalwareBazaar", "status": "Hash not found in database."}
@@ -112,7 +112,7 @@ class ThreatIntel:
                     return {"provider": "MalwareBazaar", "status": f"HTTP Error {e.code}"}
                 except Exception as e:
                     return {"provider": "MalwareBazaar", "status": f"API connection error: {str(e)}"}
-            
+
             # Hybrid Analysis API v2 endpoint for hash search
             elif self.provider == "hybridanalysis":
                 params = urllib.parse.urlencode({"hash": self.sha256})

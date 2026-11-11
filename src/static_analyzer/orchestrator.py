@@ -85,6 +85,18 @@ class TriageOrchestrator:
                     console.print(f"  [cyan]Family Labels:[/cyan] [bold yellow]{', '.join(intel_res['family_labels'])}[/bold yellow]")
                 if "signature" in intel_res:
                     console.print(f"  [cyan]Signature:[/cyan] [bold red]{intel_res['signature']}[/bold red]")
+                if "file_name" in intel_res:
+                    console.print(f"  [cyan]File Name:[/cyan] {intel_res['file_name']}")
+                if "date_utc" in intel_res:
+                    console.print(f"  [cyan]Date (UTC):[/cyan] {intel_res['date_utc']}")
+                if "type" in intel_res:
+                    console.print(f"  [cyan]Type:[/cyan] {intel_res['type']}")
+                if "tags" in intel_res and intel_res["tags"]:
+                    tags_val = intel_res['tags']
+                    tags_str = ", ".join(tags_val) if isinstance(tags_val, list) else str(tags_val)
+                    console.print(f"  [cyan]Tags:[/cyan] [magenta]{tags_str}[/magenta]")
+                if "reporter" in intel_res:
+                    console.print(f"  [cyan]Reporter:[/cyan] {intel_res['reporter']}")
                 if "report_id" in intel_res:
                     console.print(f"  [cyan]Report ID:[/cyan] {intel_res['report_id']}")
                 if "environment" in intel_res:
