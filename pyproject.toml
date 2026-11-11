@@ -8,7 +8,16 @@ version = "2.0.0"
 description = "Universal Static Malware Forensics Analyzer & Rapid Triage Tool"
 readme = "README.md"
 requires-python = ">=3.8"
-authors = [{ name = "Rashid Dewewe" }]
+authors = [
+    { name = "Rashid Dewewe", email = "shantidewewe35@gmail.com" }
+    ]
+license = { text = "Apache-2.0" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+]
 dependencies = [
     "pefile",
     "python-magic; platform_system != 'Windows'",
